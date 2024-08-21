@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_example/provider/cart_notifier.dart';
 import 'package:riverpod_example/provider/product_provider.dart';
+import 'package:riverpod_example/shared/add_and_remove_button.dart';
 import 'package:riverpod_example/shared/cart_icon.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -36,46 +37,13 @@ class HomeScreen extends ConsumerWidget {
                   Text(allProducts[index].title),
                   Text(allProducts[index].price.toString()),
                   (cartProducts.contains(allProducts[index]))==true?
-                   InkWell(
-                     onTap: () {},
-                     child: Container(
-                       width: double.maxFinite,
-                       padding: const EdgeInsets.all(5),
-                       decoration: BoxDecoration(
-                         color: Colors.red,
-                         borderRadius: BorderRadius.circular(10),
-                       ),
-                       child: const Row(
-                         mainAxisAlignment: MainAxisAlignment.center,
-                         crossAxisAlignment: CrossAxisAlignment.center,
-                         children: [
-                           Icon(Icons.close_sharp, color: Colors.white),
-                            SizedBox(width: 5),
-                            Text("Remove", style: TextStyle(color: Colors.white),),
-                         ],
-                       ),
-                     ),
-                   ):
-                  InkWell(
-                    onTap: () {},
-                    child: Container(
-                      width: double.maxFinite,
-                      padding: const EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        color: Colors.green,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(Icons.add, color: Colors.white),
-                          SizedBox(width: 5),
-                          Text("add", style: TextStyle(color: Colors.white),),
-                        ],
-                      ),
-                    ),
-                  ),
+                  AddAndRemoveButton(onPressed: (){
+                    ref.read(cartNotifierProvider.notifier).removeProduct(allProducts[index]);
+                  }, title: "Remove"):
+                  AddAndRemoveButton(onPressed: (){
+                    ref.read(cartNotifierProvider.notifier).addProduct(allProducts[index]);
+                  }, title: "Add")
+
 
                 ],
               ),
