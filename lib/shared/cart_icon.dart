@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_example/provider/cart_notifier.dart';
 import 'package:riverpod_example/screens/cart/cart_screen.dart';
 
-class CartIcon extends StatelessWidget {
+class CartIcon extends ConsumerWidget {
   const CartIcon({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cartProductsLength = ref.watch(cartNotifierProvider).length;
     return Stack(
       children: [
         IconButton(
@@ -16,6 +19,7 @@ class CartIcon extends StatelessWidget {
           },
           icon: const Icon(Icons.shopping_bag_outlined),
         ),
+        cartProductsLength == 0?const SizedBox():
         Positioned(
           top: 5,
           left: 5,
@@ -25,7 +29,13 @@ class CartIcon extends StatelessWidget {
             alignment: Alignment.center,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: Colors.blueAccent,
+              color: Colors.red,
+            ),
+            child: Center(
+              child: Text(
+                cartProductsLength.toString(),
+                style: const TextStyle(color: Colors.white),
+              ),
             ),
           ),
         ),
